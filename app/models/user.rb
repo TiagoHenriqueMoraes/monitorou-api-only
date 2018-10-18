@@ -8,4 +8,8 @@ class User < ApplicationRecord
   belongs_to :course
 
   enum kind: [:student, :monitor, :admin]
+
+  has_many :worktimes, dependent: :destroy
+
+  validates :email, presence: :true
 end
