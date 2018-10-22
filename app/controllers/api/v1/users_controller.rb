@@ -7,7 +7,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
   
   def create
-    @user = user.new(user_params.merge(user: current_user))
+    @user = User.new(user_params)
     if @user.save
       render json: @user, status: :created
     else
@@ -38,7 +38,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
   
   def user_params
-    params.require(:user).permit(:email, :name, :course_id, :institution_id, :kind, :password,
+    params.permit(:email, :name, :course_id, :institution_id, :kind, :password,
                                  :password_confirmation, :authentication_token)
   end
 end
