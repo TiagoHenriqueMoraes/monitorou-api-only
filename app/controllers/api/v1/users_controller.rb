@@ -38,7 +38,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
   
   def user_params
-    params.permit(:email, :name, :course_id, :institution_id, :kind, :password,
+    params.require(:user).permit(:email, :name, :course_id, :institution_id, :kind, :password,
                                  :password_confirmation, :authentication_token)
   end
 end
