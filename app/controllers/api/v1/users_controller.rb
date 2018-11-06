@@ -9,7 +9,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   def create
     @user = User.new(user_params)
     if @user.save
-      render json: @user, status: :created
+      render json: @user, except: [:created_at, :updated_at, :id], status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -19,7 +19,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     if @user.update(user_params)
       render json: @user
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: @user.errors, except: [:created_at, :updated_at, :id], status: :unprocessable_entity
     end
   end
   
