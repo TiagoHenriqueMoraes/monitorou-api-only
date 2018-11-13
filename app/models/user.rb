@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :worktimes, dependent: :destroy
 
   validates :email, presence: :true
+  validates :worktimes, presence: :true, if: :monitor?
 
   accepts_nested_attributes_for :worktimes, allow_destroy: true
 end
