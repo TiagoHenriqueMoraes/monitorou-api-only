@@ -6,7 +6,8 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create, :destroy]
       resources :users
       resources :courses, except: [:show]
-      resources :subjects, except: [:show, :destroy, :update]
+      resources :subjects, except: [:show, :destroy]
+      resources :institutions, except: [:show] 
     end
   end
 end
