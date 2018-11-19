@@ -1,9 +1,10 @@
 module Api::V1  
   class CoursesController < ApiController
     before_action :set_course, only: [:update, :destroy]
+    has_scope :institution
 
     def index
-      @courses = Course.all
+      @courses = apply_scopes(Course).all
       render json: @courses, only: [:name], :include => {:institution => {:only => :name}}
     end
 

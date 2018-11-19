@@ -17,9 +17,9 @@ class Api::V1::InstitutionsController < ApplicationController
 
   def update
     if @institution.update(institution_params)
-      render json: @institution
+      render json: @institution, except: [:created_at, :updated_at]
     else
-      render json: @institution.errors, except: [:created_at, :updated_at, :id], status: :unprocessable_entity
+      render json: @institution.errors, status: :unprocessable_entity
     end
   end
 

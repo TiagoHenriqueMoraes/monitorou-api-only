@@ -11,6 +11,8 @@ class User < ApplicationRecord
 
   has_many :worktimes, dependent: :destroy
 
+  scope :institution, -> institution { where(institution_id: institution) }
+
   validates :email, presence: :true
   validates :worktimes, presence: :true, if: :monitor?
 

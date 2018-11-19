@@ -1,8 +1,9 @@
 class Api::V1::UsersController < Api::V1::ApiController
   before_action :set_user, only: [:show, :update, :destroy]
+  has_scope :institution
 
   def index
-    @users = User.all
+    @users = apply_scopes(User).all
     render json: @users, only: [:name, :email, :authentication_token]
   end
   

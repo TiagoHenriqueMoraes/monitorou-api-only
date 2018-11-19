@@ -10,6 +10,7 @@ gem 'devise'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'rack-cors'
 gem 'rack-attack'
+gem 'has_scope'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 
