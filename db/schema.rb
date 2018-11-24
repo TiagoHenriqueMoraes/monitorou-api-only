@@ -58,7 +58,8 @@ ActiveRecord::Schema.define(version: 2018_10_18_002203) do
   end
 
   create_table "worktimes", force: :cascade do |t|
-    t.datetime "worktime"
+    t.time "start_time"
+    t.time "end_time"
     t.integer "day"
     t.bigint "user_id"
     t.datetime "created_at", null: false
