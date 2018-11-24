@@ -1,8 +1,9 @@
 class Api::V1::SubjectsController < ApplicationController
   before_action :set_subject, only: [:update, :destroy]
+  has_scope :course
 
   def index
-    @subjects = Subject.all
+    @subjects = apply_scopes(Subject).all
     render json: @subjects, only: [:name], :include => {:course => {:only => :name}}
   end
 
