@@ -4,7 +4,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def index
     @users = apply_scopes(User).all
-    render json: @users, only: [:name, :email, :authentication_token]
+    render json: @users, only: :[:id, :name, :email, :authentication_token]
   end
   
   def create
@@ -25,7 +25,11 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
   
   def show
-    render json: @user
+    if @user.monitor?
+      render json: @user, inlclude: [:worktimes]
+    else
+      render json: @user
+    end
   end
   
   def destroy
