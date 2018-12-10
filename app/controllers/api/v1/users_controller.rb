@@ -4,7 +4,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def index
     @users = apply_scopes(User).all
-    render json: @users, only: :[:id, :name, :email, :authentication_token]
+    render json: @users, only: [:id, :name, :email, :authentication_token]
   end
   
   def create
