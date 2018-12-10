@@ -7,7 +7,8 @@ Rails.application.routes.draw do
       resources :users
       resources :courses, except: [:show]
       resources :subjects, except: [:show, :destroy]
-      resources :institutions, except: [:show] 
+      resources :institutions, except: [:show]
+      resources :worktimes, only: [:index]
     end
   end
 end
