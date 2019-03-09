@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_18_002203) do
+ActiveRecord::Schema.define(version: 2019_03_09_234852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,17 @@ ActiveRecord::Schema.define(version: 2018_10_18_002203) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "study_groups", force: :cascade do |t|
+    t.bigint "institution_id"
+    t.string "name"
+    t.bigint "subject_id"
+    t.string "theme"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["institution_id"], name: "index_study_groups_on_institution_id"
+    t.index ["subject_id"], name: "index_study_groups_on_subject_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -50,11 +61,13 @@ ActiveRecord::Schema.define(version: 2018_10_18_002203) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string "authentication_token", limit: 30
+    t.bigint "study_group_id"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["course_id"], name: "index_users_on_course_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["institution_id"], name: "index_users_on_institution_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["study_group_id"], name: "index_users_on_study_group_id"
   end
 
   create_table "worktimes", force: :cascade do |t|
@@ -68,8 +81,11 @@ ActiveRecord::Schema.define(version: 2018_10_18_002203) do
   end
 
   add_foreign_key "courses", "institutions"
+  add_foreign_key "study_groups", "institutions"
+  add_foreign_key "study_groups", "subjects"
   add_foreign_key "subjects", "courses"
   add_foreign_key "users", "courses"
   add_foreign_key "users", "institutions"
+  add_foreign_key "users", "study_groups"
   add_foreign_key "worktimes", "users"
 end
