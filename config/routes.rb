@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :study_groups, only: [:create, :destroy, :index]
+      resources :study_groups, except: [:show]
       resources :sessions, only: [:create, :destroy]
       resources :users
       resources :courses, except: [:show]

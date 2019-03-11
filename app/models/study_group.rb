@@ -1,4 +1,4 @@
 class StudyGroup < ApplicationRecord
-  belongs_to :insitution
+  belongs_to :institution
   belongs_to :subject
 end
