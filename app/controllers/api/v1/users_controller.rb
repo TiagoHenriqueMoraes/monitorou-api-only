@@ -18,18 +18,15 @@ class Api::V1::UsersController < Api::V1::ApiController
   
   def update
     if @user.update(user_params)
-      render json: @user
+      render json: @user, except: [:created_at, :updated_at], include: [:worktimes]
     else
       render json: @user.errors, except: [:created_at, :updated_at, :id], status: :unprocessable_entity
     end
   end
   
   def show
-    if @user.monitor?
-      render json: @user, inlclude: [:worktimes]
-    else
-      render json: @user
-    end
+    return render json: @user, include: [:worktimes] if @user.monitor?
+    render json: @user
   end
   
   def destroy

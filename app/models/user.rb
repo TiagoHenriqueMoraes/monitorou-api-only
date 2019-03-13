@@ -6,7 +6,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :trackable
   belongs_to :institution
   belongs_to :course
-  belongs_to :study_group
+  belongs_to :study_group, optional: true
 
   enum kind: [:student, :monitor, :admin]
 
