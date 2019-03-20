@@ -29,6 +29,14 @@ module Api::V1
       @study_group.destroy
     end
 
+    def join_group
+      if StudyGroupsUser.create(user: current_user, study_group_id: params[:group_id])
+        render json: "Bem vindo ao grupo!!!"
+      else
+        render json: "Erro ao entar no grupo"
+      end
+    end
+
     private
 
     def set_study_group
