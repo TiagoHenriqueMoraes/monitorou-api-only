@@ -4,7 +4,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def index
     @users = apply_scopes(User).all
-    render json: @users, only: [:name, :email, :authentication_token],
+    render json: @users, only: [:name, :email, :authentication_token, :profile_picture],
                          include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                    worktimes: {only: [:start_time, :end_time, :day]},
                                    study_group: {only: [:name, :theme], include: {subjects: {only: [:name]},
@@ -12,6 +12,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
   
   def create
+    binding.pry
     @user = User.new(user_params)
     if @user.save
       render_params
@@ -21,6 +22,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
   
   def update
+    binding.pry
     if @user.update(user_params)
       render_params
     else
@@ -44,19 +46,19 @@ class Api::V1::UsersController < Api::V1::ApiController
   
   def user_params
     params.require(:user).permit(:email, :name, :course_id, :institution_id, :kind, :password,
-                                 :password_confirmation, :authentication_token,
+                                 :password_confirmation, :authentication_token, :profile_picture,
                                  worktimes_attributes: [:id, :day, :start_time, :end_time, :_destroy])
   end
 
   def render_params
     if @user.monitor?
-      render json: @user, only: [:name, :email, :authentication_token],
+      render json: @user, only: [:name, :email, :authentication_token, :profile_picture],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}}, 
                                     worktimes: {only: [:start_time, :end_time, :day]},
                                     study_group: {only: [:name, :theme], include: {subjects: {only: [:name]},
                                                                                     institution: {only: [:name]}}}}
     else
-      render json: @user, only: [:name, :email, :authentication_token],
+      render json: @user, only: [:name, :email, :authentication_token, :profile_picture],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                     study_group: {only: [:name, :theme], include: {subjects: {only: [:name]},
                                                                                    institution: {only: [:name]}}}}

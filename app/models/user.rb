@@ -11,6 +11,8 @@ class User < ApplicationRecord
 
   enum kind: %i[student monitor admin]
 
+  mount_uploader :profile_picture, ProfilePictureUploader
+
   has_many :worktimes, dependent: :destroy
 
   scope :institution, ->(institution) { where(institution_id: institution) }
