@@ -7,7 +7,7 @@ class Api::V1::UsersController < Api::V1::ApiController
     render json: @users, only: [:name, :email, :authentication_token, :profile_pictur, :kind],
                          include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                    worktimes: {only: [:start_time, :end_time, :day]},
-                                   study_group: {only: [:name, :theme], include: {subject: {only: [:name]},
+                                   study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
                                                                         institution: {only: [:name]}}}}
   end
   
@@ -53,12 +53,12 @@ class Api::V1::UsersController < Api::V1::ApiController
       render json: @user, only: [:name, :email, :authentication_token, :profile_picture, :kind],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}}, 
                                     worktimes: {only: [:start_time, :end_time, :day]},
-                                    study_group: {only: [:name, :theme], include: {subject: {only: [:name]},
+                                    study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
                                                                                     institution: {only: [:name]}}}}
     else
       render json: @user, only: [:name, :email, :authentication_token, :profile_picture, :kind],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
-                                    study_group: {only: [:name, :theme], include: {subject: {only: [:name]},
+                                    study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
                                                                                    institution: {only: [:name]}}}}
     end
   end

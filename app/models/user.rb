@@ -7,7 +7,7 @@ class User < ApplicationRecord
   belongs_to :institution
   belongs_to :course
 
-  has_and_belongs_to_many :study_group, optional: true
+  has_and_belongs_to_many :study_groups, optional: true
 
   enum kind: %i[student monitor admin]
 
