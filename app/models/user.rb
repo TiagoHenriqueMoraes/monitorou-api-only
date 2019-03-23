@@ -7,14 +7,18 @@ class User < ApplicationRecord
   belongs_to :institution
   belongs_to :course
 
-  enum kind: [:student, :monitor, :admin]
+  has_and_belongs_to_many :study_group, optional: true
+
+  enum kind: %i[student monitor admin]
+
+  mount_uploader :profile_picture, ProfilePictureUploader
 
   has_many :worktimes, dependent: :destroy
 
-  scope :institution, -> institution { where(institution_id: institution) }
+  scope :institution, ->(institution) { where(institution_id: institution) }
 
-  validates :email, presence: :true
-  validates :worktimes, presence: :true, if: :monitor?
+  validates :email, presence: true
+  validates :worktimes, presence: true, if: :monitor?
 
   accepts_nested_attributes_for :worktimes, allow_destroy: true
 end
