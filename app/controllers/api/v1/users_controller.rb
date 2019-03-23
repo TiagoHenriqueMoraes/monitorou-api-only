@@ -1,13 +1,13 @@
 class Api::V1::UsersController < Api::V1::ApiController
   before_action :set_user, only: [:show, :update, :destroy]
-  has_scope :institution, :subjects
+  has_scope :institution, :subject
 
   def index
     @users = apply_scopes(User).all
-    render json: @users, only: [:name, :email, :authentication_token, :profile_picture],
+    render json: @users, only: [:name, :email, :authentication_token, :profile_pictur, :kind],
                          include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                    worktimes: {only: [:start_time, :end_time, :day]},
-                                   study_group: {only: [:name, :theme], include: {subjects: {only: [:name]},
+                                   study_group: {only: [:name, :theme], include: {subject: {only: [:name]},
                                                                         institution: {only: [:name]}}}}
   end
   
@@ -52,15 +52,15 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def render_params
     if @user.monitor?
-      render json: @user, only: [:name, :email, :authentication_token, :profile_picture],
+      render json: @user, only: [:name, :email, :authentication_token, :profile_picture, :kind],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}}, 
                                     worktimes: {only: [:start_time, :end_time, :day]},
-                                    study_group: {only: [:name, :theme], include: {subjects: {only: [:name]},
+                                    study_group: {only: [:name, :theme], include: {subject: {only: [:name]},
                                                                                     institution: {only: [:name]}}}}
     else
-      render json: @user, only: [:name, :email, :authentication_token, :profile_picture],
+      render json: @user, only: [:name, :email, :authentication_token, :profile_picture, :kind],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
-                                    study_group: {only: [:name, :theme], include: {subjects: {only: [:name]},
+                                    study_group: {only: [:name, :theme], include: {subject: {only: [:name]},
                                                                                    institution: {only: [:name]}}}}
     end
   end
