@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :study_groups, except: [:show]
+      resources :study_groups, except: [:show] do
+        post :join_group, as: :join_group, on: :collection
+      end
       resources :sessions, only: [:create, :destroy]
       resources :users
       resources :courses, except: [:show]
