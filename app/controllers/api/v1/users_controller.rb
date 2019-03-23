@@ -6,7 +6,9 @@ class Api::V1::UsersController < Api::V1::ApiController
     @users = apply_scopes(User).all
     render json: @users, only: [:name, :email, :authentication_token, :profile_picture],
                          include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
-                                    worktimes: {only: [:start_time, :end_time, :day]}}
+                                   worktimes: {only: [:start_time, :end_time, :day]},
+                                   study_group: {only: [:name, :theme], include: {subjects: {only: [:name]},
+                                                                        institution: {only: [:name]}}}}
   end
   
   def create
@@ -52,10 +54,14 @@ class Api::V1::UsersController < Api::V1::ApiController
     if @user.monitor?
       render json: @user, only: [:name, :email, :authentication_token, :profile_picture],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}}, 
-                                    worktimes: {only: [:start_time, :end_time, :day]}}
+                                    worktimes: {only: [:start_time, :end_time, :day]},
+                                    study_group: {only: [:name, :theme], include: {subjects: {only: [:name]},
+                                                                                    institution: {only: [:name]}}}}
     else
       render json: @user, only: [:name, :email, :authentication_token, :profile_picture],
-                          include: {course: {only: [:name], include: {subjects: {only: [:name]}}}}
+                          include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
+                                    study_group: {only: [:name, :theme], include: {subjects: {only: [:name]},
+                                                                                   institution: {only: [:name]}}}}
     end
   end
 end

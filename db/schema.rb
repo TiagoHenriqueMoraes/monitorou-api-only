@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2019_03_17_181712) do
 
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,6 +39,15 @@ ActiveRecord::Schema.define(version: 2019_03_17_181712) do
     t.datetime "updated_at", null: false
     t.index ["institution_id"], name: "index_study_groups_on_institution_id"
     t.index ["subject_id"], name: "index_study_groups_on_subject_id"
+  end
+
+  create_table "study_groups_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "study_group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_group_id"], name: "index_study_groups_users_on_study_group_id"
+    t.index ["user_id"], name: "index_study_groups_users_on_user_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -71,6 +81,15 @@ ActiveRecord::Schema.define(version: 2019_03_17_181712) do
     t.index ["study_group_id"], name: "index_users_on_study_group_id"
   end
 
+  create_table "users_study_groups", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "study_group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["study_group_id"], name: "index_users_study_groups_on_study_group_id"
+    t.index ["user_id"], name: "index_users_study_groups_on_user_id"
+  end
+
   create_table "worktimes", force: :cascade do |t|
     t.time "start_time"
     t.time "end_time"
@@ -84,9 +103,13 @@ ActiveRecord::Schema.define(version: 2019_03_17_181712) do
   add_foreign_key "courses", "institutions"
   add_foreign_key "study_groups", "institutions"
   add_foreign_key "study_groups", "subjects"
+  add_foreign_key "study_groups_users", "study_groups"
+  add_foreign_key "study_groups_users", "users"
   add_foreign_key "subjects", "courses"
   add_foreign_key "users", "courses"
   add_foreign_key "users", "institutions"
   add_foreign_key "users", "study_groups"
+  add_foreign_key "users_study_groups", "study_groups"
+  add_foreign_key "users_study_groups", "users"
   add_foreign_key "worktimes", "users"
 end
