@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   enum kind: %i[student monitor admin]
 
-  mount_uploader :profile_picture, ProfilePictureUploader
+  mount_base64_uploader :profile_picture, ProfilePictureUploader
 
   has_many :worktimes, dependent: :destroy
 

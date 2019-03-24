@@ -11,8 +11,8 @@ gem 'simple_token_authentication', '~> 1.0'
 gem 'rack-cors'
 gem 'rack-attack'
 gem 'carrierwave'
+gem 'carrierwave-base64'
 gem 'has_scope'
-
 gem 'bootsnap', '>= 1.1.0', require: false
 
 
