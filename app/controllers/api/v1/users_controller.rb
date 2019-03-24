@@ -4,7 +4,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def index
     @users = apply_scopes(User).all
-    render json: @users, only: [:name, :email, :authentication_token, :profile_pictur, :kind],
+    render json: @users, only: [:name, :email, :authentication_token, :profile_picture, :kind],
                          include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                    worktimes: {only: [:start_time, :end_time, :day]},
                                    study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
@@ -21,7 +21,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
   
   def update
-    if @user.upsdate(user_params)
+    if @user.update(user_params)
       render_params
     else
       render json: @user.errors, except: [:created_at, :updated_at, :id], status: :unprocessable_entity
