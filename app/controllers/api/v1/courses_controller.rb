@@ -5,7 +5,8 @@ module Api::V1
 
     def index
       @courses = apply_scopes(Course).all
-      render json: @courses, only: [:name], :include => {:institution => {:only => :name}}
+      render json: @courses, only: [:name], include: {institution: {only: [:name]},
+                                                      subjects: {only: [:name]}}
     end
 
     def create

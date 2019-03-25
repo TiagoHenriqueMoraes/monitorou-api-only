@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_17_181712) do
-
+ActiveRecord::Schema.define(version: 2019_03_25_221449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +21,15 @@ ActiveRecord::Schema.define(version: 2019_03_17_181712) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["institution_id"], name: "index_courses_on_institution_id"
+  end
+
+  create_table "courses_subjects", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "subject_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_courses_subjects_on_course_id"
+    t.index ["subject_id"], name: "index_courses_subjects_on_subject_id"
   end
 
   create_table "institutions", force: :cascade do |t|
@@ -52,10 +60,8 @@ ActiveRecord::Schema.define(version: 2019_03_17_181712) do
 
   create_table "subjects", force: :cascade do |t|
     t.string "name"
-    t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_subjects_on_course_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -81,15 +87,6 @@ ActiveRecord::Schema.define(version: 2019_03_17_181712) do
     t.index ["study_group_id"], name: "index_users_on_study_group_id"
   end
 
-  create_table "users_study_groups", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "study_group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["study_group_id"], name: "index_users_study_groups_on_study_group_id"
-    t.index ["user_id"], name: "index_users_study_groups_on_user_id"
-  end
-
   create_table "worktimes", force: :cascade do |t|
     t.time "start_time"
     t.time "end_time"
@@ -101,15 +98,14 @@ ActiveRecord::Schema.define(version: 2019_03_17_181712) do
   end
 
   add_foreign_key "courses", "institutions"
+  add_foreign_key "courses_subjects", "courses"
+  add_foreign_key "courses_subjects", "subjects"
   add_foreign_key "study_groups", "institutions"
   add_foreign_key "study_groups", "subjects"
   add_foreign_key "study_groups_users", "study_groups"
   add_foreign_key "study_groups_users", "users"
-  add_foreign_key "subjects", "courses"
   add_foreign_key "users", "courses"
   add_foreign_key "users", "institutions"
   add_foreign_key "users", "study_groups"
-  add_foreign_key "users_study_groups", "study_groups"
-  add_foreign_key "users_study_groups", "users"
   add_foreign_key "worktimes", "users"
 end
