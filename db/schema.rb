@@ -35,10 +35,10 @@ ActiveRecord::Schema.define(version: 2019_03_26_215052) do
   create_table "events", force: :cascade do |t|
     t.string "description"
     t.date "date"
-    t.bigint "courses_subjects_id"
+    t.bigint "courses_subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["courses_subjects_id"], name: "index_events_on_courses_subjects_id"
+    t.index ["courses_subject_id"], name: "index_events_on_courses_subject_id"
   end
 
   create_table "institutions", force: :cascade do |t|
@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 2019_03_26_215052) do
   add_foreign_key "courses", "institutions"
   add_foreign_key "courses_subjects", "courses"
   add_foreign_key "courses_subjects", "subjects"
-  add_foreign_key "events", "courses_subjects", column: "courses_subjects_id"
+  add_foreign_key "events", "courses_subjects"
   add_foreign_key "study_groups", "institutions"
   add_foreign_key "study_groups", "subjects"
   add_foreign_key "study_groups_users", "study_groups"
