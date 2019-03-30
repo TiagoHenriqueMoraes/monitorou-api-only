@@ -36,7 +36,7 @@
       end
   
       def attendance_params
-        params.require(:attendance).permit(:user_id, :date)
+        params.require(:attendance).permit(:user_id, :kind, :date)
       end
   
     end
