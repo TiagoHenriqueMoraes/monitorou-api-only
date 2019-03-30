@@ -7,6 +7,7 @@ Rails.application.routes.draw do
         post :join_group, as: :join_group, on: :collection
       end
       resources :attendances
+      resources :events, except: [:show]
       resources :sessions, only: [:create, :destroy]
       resources :users
       resources :courses, except: [:show]
