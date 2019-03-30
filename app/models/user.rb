@@ -14,6 +14,7 @@ class User < ApplicationRecord
   mount_base64_uploader :profile_picture, ProfilePictureUploader
 
   has_many :worktimes, dependent: :destroy
+  has_many :attendances, dependent: :destroy
 
   scope :institution, ->(institution) { where(institution_id: institution) }
 
