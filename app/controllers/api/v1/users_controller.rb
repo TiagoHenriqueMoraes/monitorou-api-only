@@ -1,16 +1,17 @@
 class Api::V1::UsersController < Api::V1::ApiController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: %i[show update destroy]
   has_scope :institution, :subject
 
   def index
     @users = apply_scopes(User).all
-    render json: @users, only: [:id, :name, :email, :authentication_token, :profile_picture, :kind],
-                         include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
-                                   worktimes: {only: [:start_time, :end_time, :day]},
+    render json: @users, only: %i[id name email authentication_token profile_picture kind],
+                                  include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
+                                  worktimes: {only: [:start_time, :end_time, :day]},
                                    study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
-                                                                        institution: {only: [:name]}}}}
+                                                                                   institution: {only: [:name]}}},
+                                                                         attendances: {only: [:kind, :date]}}
   end
-  
+
   def create
     @user = User.new(user_params)
     if @user.save
@@ -19,23 +20,23 @@ class Api::V1::UsersController < Api::V1::ApiController
       render json: @user.errors, status: :unprocessable_entity
     end
   end
-  
+
   def update
     if @user.update(user_params)
       render_params
     else
-      render json: @user.errors, except: [:created_at, :updated_at, :id], status: :unprocessable_entity
+      render json: @user.errors, except: %i[created_at updated_at id], status: :unprocessable_entity
     end
   end
-  
+
   def show
     render_params
   end
-  
+
   def destroy
     @user.destroy
   end
-  
+
   private
   
   def set_user
@@ -54,12 +55,14 @@ class Api::V1::UsersController < Api::V1::ApiController
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}}, 
                                     worktimes: {only: [:start_time, :end_time, :day]},
                                     study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
-                                                                                    institution: {only: [:name]}}}}
+                                                                                    institution: {only: [:name]}}},
+                                                                          attendances: {only: [:kind, :date]}}
     else
       render json: @user, only: [:id, :name, :email, :authentication_token, :profile_picture, :kind],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                     study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
-                                                                                   institution: {only: [:name]}}}}
+                                                                                   institution: {only: [:name]}}},
+                                                                          attendances: {only: [:kind, :date]}}
     end
   end
 end
