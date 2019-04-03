@@ -55,12 +55,14 @@ class Api::V1::UsersController < Api::V1::ApiController
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}}, 
                                     worktimes: {only: [:start_time, :end_time, :day]},
                                     study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
-                                                                                    institution: {only: [:name]}}}}
+                                                                                    institution: {only: [:name]}}},
+                                                                          attendances: {only: [:kind, :date]}}
     else
       render json: @user, only: [:id, :name, :email, :authentication_token, :profile_picture, :kind],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                     study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
-                                                                                   institution: {only: [:name]}}}}
+                                                                                   institution: {only: [:name]}}},
+                                                                          attendances: {only: [:kind, :date]}}
     end
   end
 end
