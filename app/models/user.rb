@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_many :attendances, dependent: :destroy
 
   scope :institution, ->(institution) { where(institution_id: institution) }
+  default_scope -> { includes(:institution, :worktimes, :attendances, course: [:subjects], study_groups: [:subjects]) }
 
   validates :email, presence: true
   validates :worktimes, presence: true, if: :monitor?

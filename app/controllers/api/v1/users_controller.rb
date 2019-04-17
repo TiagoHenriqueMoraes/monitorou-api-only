@@ -3,6 +3,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   has_scope :institution, :subject
 
   def index
+    authorize User
     @users = apply_scopes(User).all
     render json: @users, only: %i[id name email authentication_token profile_picture kind],
                                   include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
