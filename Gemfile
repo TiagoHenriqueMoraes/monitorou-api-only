@@ -14,6 +14,7 @@ gem 'carrierwave'
 gem 'carrierwave-base64'
 gem 'has_scope'
 gem 'bootsnap', '>= 1.1.0', require: false
+gem "pundit"
 
 
 group :development, :test do
