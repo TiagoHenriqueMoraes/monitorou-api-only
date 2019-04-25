@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       resources :study_groups, except: [:show] do
         post :join_group, as: :join_group, on: :collection
       end
-      resources :attendances
+      resources :attendances, on: :collection
       resources :sessions, only: [:create, :destroy]
       resources :users
       resources :courses, except: [:show]

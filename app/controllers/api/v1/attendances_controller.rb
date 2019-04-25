@@ -9,12 +9,18 @@
       end
   
       def create
-        @attendance = Attendance.new(attendance_params)
-        if @attendance.save
-          render json: @attendance
+        response = []
+        if params[:attendance].is_a? Array
+          params[:attendance].each do |hash|
+            attendance = Attendance.new(attendance_params(hash))
+            response << (attendance.save ? attendance : attendance.errors)
+          end
         else
-          render json: @attendance.errors, status: :unprocessable_entity
+          attendance = Attendance.new(attendance_params(params[:attendance]))
+          response = (attendance.save ? attendance : attendance.errors)
         end
+        render json: response
+
       end
   
       def update
@@ -35,8 +41,8 @@
         @attendance = Attendance.find(params[:id])
       end
   
-      def attendance_params
-        params.require(:attendance).permit(:user_id, :kind, :date)
+      def attendance_params(params)
+        params.permit(:user_id, :kind, :date)
       end
   
     end
