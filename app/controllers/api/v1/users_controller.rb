@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::ApiController
-  before_action :set_user, only: %i[show update destroy]
+  before_action :set_user, only: %i[show update destroy attendances]
   before_action :authorize_user, only: %i[index destroy]
   before_action :authorize_record, only: %i[update show]
   has_scope :institution, :subject
@@ -34,6 +34,10 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def show
     render_params
+  end
+
+  def attendances
+    render json: @user.attendances
   end
 
   def destroy
