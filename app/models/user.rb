@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   has_and_belongs_to_many :study_group, optional: true
 
-  enum kind: %i[student monitor admin]
+  enum kind: %i[student monitor admin teacher]
 
   mount_base64_uploader :profile_picture, ProfilePictureUploader
 

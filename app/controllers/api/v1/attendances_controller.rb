@@ -20,7 +20,6 @@
           response = (attendance.save ? attendance : attendance.errors)
         end
         render json: response
-
       end
   
       def update
