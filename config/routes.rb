@@ -6,14 +6,16 @@ Rails.application.routes.draw do
       resources :study_groups, except: [:show] do
         post :join_group, as: :join_group, on: :collection
       end
-      resources :attendances
+      resources :attendances, on: :collection
       resources :events, except: [:show]
       resources :sessions, only: [:create, :destroy]
-      resources :users
+      resources :users do
+        get ":id/attendances", action: :attendances, on: :collection
+      end
       resources :courses, except: [:show]
       resources :subjects, except: [:show, :destroy]
       resources :institutions, except: [:show]
-      resources :worktimes, only: [:index]
+      resources :worktimes, except: [:create]
     end
   end
 end

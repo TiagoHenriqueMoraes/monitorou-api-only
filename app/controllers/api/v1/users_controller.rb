@@ -1,5 +1,7 @@
 class Api::V1::UsersController < Api::V1::ApiController
-  before_action :set_user, only: %i[show update destroy]
+  before_action :set_user, only: %i[show update destroy attendances]
+  before_action :authorize_user, only: %i[index destroy]
+  before_action :authorize_record, only: %i[update show]
   has_scope :institution, :subject
 
   def index
@@ -14,6 +16,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def create
     @user = User.new(user_params)
+    authorize @user
     if @user.save
       render_params
     else
@@ -33,6 +36,10 @@ class Api::V1::UsersController < Api::V1::ApiController
     render_params
   end
 
+  def attendances
+    render json: @user.attendances
+  end
+
   def destroy
     @user.destroy
   end
@@ -47,6 +54,14 @@ class Api::V1::UsersController < Api::V1::ApiController
     params.require(:user).permit(:email, :name, :course_id, :institution_id, :kind, :password,
                                  :password_confirmation, :authentication_token, :profile_picture,
                                  worktimes_attributes: [:id, :day, :start_time, :end_time, :_destroy])
+  end
+
+  def authorize_user
+    authorize User
+  end
+  
+  def authorize_record
+    authorize @user
   end
 
   def render_params
