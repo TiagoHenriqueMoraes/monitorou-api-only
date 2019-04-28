@@ -8,6 +8,7 @@ class Api::V1::SubjectsController < ApplicationController
   end
 
   def create
+    authorize Subject
     @subject = Subject.new(subject_params)
     if @subject.save
       render json: @subject, except: [:created_at, :updated_at, :id], status: :created
