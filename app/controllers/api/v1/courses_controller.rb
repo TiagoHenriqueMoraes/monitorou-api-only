@@ -10,6 +10,7 @@ module Api::V1
     end
 
     def create
+      authorize Course
       @course = Course.new(course_params)
       if @course.save
         render json: @course
