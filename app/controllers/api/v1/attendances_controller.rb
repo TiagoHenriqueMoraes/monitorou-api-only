@@ -9,6 +9,7 @@
       end
   
       def create
+        authorize Attendance
         @attendance = Attendance.new(attendance_params)
         if @attendance.save
           render json: @attendance
@@ -18,6 +19,7 @@
       end
   
       def update
+        authorize @attendance
         if @attendance.update(attendance_params)
           render json: @attendance
         else
