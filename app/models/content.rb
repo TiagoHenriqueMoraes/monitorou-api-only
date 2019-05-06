@@ -3,5 +3,6 @@ class Content < ApplicationRecord
 
   enum kind: %i[photo document]
 
-  
+  mount_base64_uploader :image, 
+  mount_base64_uploader :document,
 end
