@@ -17,10 +17,12 @@
   )
 end
 
-30.times do
+subject_array = ["Matematica", "Calculo", "Linguas", "Programação", "Ciência", "Química", "Inglês",
+                 "Redes", "Fanfic"] 
+
+subject_array.each do |subject|
     Subject.create!(
-      name: ["Matematica", "Calculo", "Linguas", "Programação"].sample,
-      course_id: Course.all.sample.id
+      name: subject,
     )
   end
 
@@ -53,3 +55,10 @@ end
   password: "123456",
   password_confirmation: "123456"
 )
+
+Course.all.each do |course|
+  subjects = Subject.all.shuffle
+  3.times do
+    CoursesSubject.create(course: course, subject: subjects.pop )
+  end
+end 

@@ -7,13 +7,17 @@ class User < ApplicationRecord
   belongs_to :institution
   belongs_to :course
 
-  has_and_belongs_to_many :study_group, optional: true
+  has_and_belongs_to_many :study_groups, optional: true
 
-  enum kind: %i[student monitor admin]
+  enum kind: %i[student monitor admin teacher]
+
+  mount_base64_uploader :profile_picture, ProfilePictureUploader
 
   has_many :worktimes, dependent: :destroy
+  has_many :attendances, dependent: :destroy
 
   scope :institution, ->(institution) { where(institution_id: institution) }
+  default_scope -> { includes(:institution, :worktimes, :attendances, course: [:subjects], study_groups: [:subjects]) }
 
   validates :email, presence: true
   validates :worktimes, presence: true, if: :monitor?
