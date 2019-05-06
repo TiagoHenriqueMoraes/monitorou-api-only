@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :subjects, except: [:show, :destroy]
       resources :institutions, except: [:show]
       resources :worktimes, only: [:index]
+      resources :contents, except: [:show]
     end
   end
 end
