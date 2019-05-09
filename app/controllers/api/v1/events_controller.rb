@@ -1,6 +1,7 @@
 module Api::V1
   class EventsController < ApiController
     before_action :set_event, only: [:update, :destroy]
+    before_action :authorize_user, only: %i[create update destroy]
 
     def index
       @events = apply_scopes(Event).all
@@ -31,6 +32,10 @@ module Api::V1
     end
 
     private
+  
+    def authorize_user
+      authorize Event
+    end
 
     def set_event
       @event = Event.find(params[:id])

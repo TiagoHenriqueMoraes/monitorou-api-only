@@ -1,6 +1,7 @@
 module Api::V1  
   class StudyGroupsController < ApiController
-    before_action :set_study_group, only: [:update, :destroy]
+    before_action :set_study_group, only: %i[update destroy]
+    before_action :authorize_user, only: %i[create update]
     has_scope :institution
 
     def index
@@ -38,6 +39,10 @@ module Api::V1
     end
 
     private
+
+    def authorize_user
+      authorize StudyGroup
+    end
 
     def set_study_group
       @study_group = StudyGroup.find(params[:id])

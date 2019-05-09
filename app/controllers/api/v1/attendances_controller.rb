@@ -9,6 +9,8 @@
       end
   
       def create
+        # Need further implementation
+        # authorize Attendance
         response = []
         if params[:attendance].is_a? Array
           params[:attendance].each do |hash|
@@ -23,6 +25,7 @@
       end
   
       def update
+        authorize @attendance
         if @attendance.update(attendance_params)
           render json: @attendance
         else
