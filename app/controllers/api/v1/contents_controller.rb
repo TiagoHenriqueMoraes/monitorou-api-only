@@ -3,13 +3,13 @@ class Api::V1::ContentsController < ApplicationController
   
   def index
     @contents = apply_scopes(Content).all
-    render json: @contents, only: %i[kind content], include: { study_group: { only: %i[name theme], include:{
+    render json: @contents, only: %i[kind image document], include: { study_group: { only: %i[name theme], include:{
                                                                       subject: { only: %i[name] } } } }
   end
 
   def create
     @content = Content.new(content_params)
-    if @content.save?
+    if @content.save
       render json: @content
     else
       render json: @content.errors, status: :unprocessable_entity
@@ -35,6 +35,6 @@ class Api::V1::ContentsController < ApplicationController
   end
 
   def content_params
-    params.require(:content).permit(:kind, :content, :study_group_id)
+    params.require(:content).permit(:kind, :image, :document, :study_group_id)
   end
 end

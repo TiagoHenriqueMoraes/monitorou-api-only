@@ -1,4 +1,4 @@
-class StudyGroupsImageUploaderUploader < CarrierWave::Uploader::Base
+class StudyGroupsDocumentUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
