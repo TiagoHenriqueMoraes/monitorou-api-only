@@ -1,5 +1,6 @@
-class Api::V1::ContentsController < ApplicationController
+class Api::V1::ContentsController < Api::V1::ApiController
   before_action :set_content, only: %i[destroy update]
+  before_action :authorize_user, only: %i[update destroy create]
   
   def index
     @contents = apply_scopes(Content).all
@@ -32,6 +33,10 @@ class Api::V1::ContentsController < ApplicationController
 
   def set_content
     @content = Content.find(params[:id])
+  end
+
+  def authorize_user
+    authorize Content
   end
 
   def content_params
