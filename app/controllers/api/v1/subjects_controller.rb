@@ -1,16 +1,17 @@
-class Api::V1::SubjectsController < ApplicationController
+class Api::V1::SubjectsController < Api::V1::ApiController
   before_action :set_subject, only: [:update, :destroy]
   has_scope :course
 
   def index
     @subjects = apply_scopes(Subject).all
-    render json: @subjects, only: [:name], include: {courses: {only: [:name]}}
+    render json: @subjects, only: %i[id name], include: {courses: {only: [:name]}}
   end
 
   def create
+    authorize Subject
     @subject = Subject.new(subject_params)
     if @subject.save
-      render json: @subject, except: [:created_at, :updated_at, :id], status: :created
+      render json: @subject, status: :created
     else
       render json: @subject.errors, status: :unprocessable_entity
     end
@@ -20,7 +21,7 @@ class Api::V1::SubjectsController < ApplicationController
     if @subject.update(subject_params)
       render json: @subject
     else
-      render json: @subject.errors, except: [:created_at, :updated_at, :id], status: :unprocessable_entity
+      render json: @subject.errors, status: :unprocessable_entity
     end
   end
 

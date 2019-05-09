@@ -15,7 +15,8 @@ Rails.application.routes.draw do
       resources :courses, except: [:show]
       resources :subjects, except: [:show, :destroy]
       resources :institutions, except: [:show]
-      resources :worktimes, except: [:create]
+      resources :contents, except: [:show]
+      resources :worktimes, except: %i[show create]
     end
   end
 end
