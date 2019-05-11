@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  questionnaire: one
+  questioannaire_option: one
+  user: one
+
+two:
+  questionnaire: two
+  questioannaire_option: two
+  user: two
