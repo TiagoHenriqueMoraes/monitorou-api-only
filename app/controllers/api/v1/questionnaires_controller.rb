@@ -1,7 +1,7 @@
 module Api::V1
   class QuestionnairesController < ApiController
-    before_action :set_questionnaire, only: [:update, :destroy]
-    before_action :authorize_user, only: %i[create update destroy]
+    before_action :set_questionnaire, only: %i[update destroy show]
+    # before_action :authorize_user, only: %i[create update destroy]
 
     def index
       @questionnaires = Questionnaire.all
@@ -14,7 +14,7 @@ module Api::V1
     def create
       @questionnaire = Questionnaire.new(questionnaire_params)
       if @questionnaire.save
-        render json: @questionnaire
+        render_questionnaire
       else
         render json: @questionnaire.errors, status: :unprocessable_entity
       end
@@ -22,7 +22,7 @@ module Api::V1
 
     def update
       if @questionnaire.update(questionnaire_params)
-        render json: @questionnaire
+        render_questionnaire  
       else
         render json: @questionnaire.errors, status: :unprocessable_entity
       end
@@ -32,10 +32,20 @@ module Api::V1
       @questionnaire.destroy
     end
 
+    def show
+      render_questionnaire
+    end
+
     private
   
-    def authorize_user
-      authorize Questionnaire
+    # def authorize_user
+    #   authorize Questionnaire
+    # end
+
+    def render_questionnaire
+      render json: @questionnaire, include: {questionnaire_options: {only: %i[id description correct],
+                                             includes: {subject: {only: %i[id name]}},
+                                             includes: {institution: {only: %i[id name]}}}}
     end
 
     def set_questionnaire
@@ -44,7 +54,7 @@ module Api::V1
 
     def questionnaire_params
       params.require(:questionnaire).permit(:subject_id, :description, :institution_id,
-                                            :questionnaire_options_attributes %i[id questionnaire_id correct description])
+                                            questionnaire_options_attributes: %i[id questionnaire_id correct description])
     end
   end
 end

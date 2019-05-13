@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resources :attendances, on: :collection
       resources :events, except: [:show]
       resources :sessions, only: [:create, :destroy]
-      resources :questionnaire
+      resources :questionnaires
       resources :users do
         get ":id/attendances", action: :attendances, on: :collection
       end
