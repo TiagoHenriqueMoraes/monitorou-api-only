@@ -36,6 +36,18 @@ module Api::V1
       render_questionnaire
     end
 
+    def create_answer
+      questionnaire_id = params[:questionnaire_id]
+      questionnaire_option_id = params[:questionnaire_option_id]
+      answer = QuestionnaireAnswer.new(user: current_user, questionnaire_id: questionnaire_id,
+                                       questionnaire_option_id: questionnaire_option_id)
+      if answer.save
+        render json: "Resposta cadastrada com sucesso!"
+      else
+        render json: asnwer.errors
+      end
+    end
+
     private
   
     # def authorize_user
