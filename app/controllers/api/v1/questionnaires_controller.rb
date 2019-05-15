@@ -6,9 +6,9 @@ module Api::V1
     def index
       @questionnaires = Questionnaire.all
       render json: @questionnaires, except: [:created_at, :updated_at], 
-                                    include: {questionnaire_options: {only: %i[id description correct],
-                                                                      includes: {subject: {only: %i[id name]}},
-                                                                      includes: {institution: {only: %i[id name]}}}}
+                                    include: {questionnaire_options: {only: %i[id description correct]},
+                                              subject: {only: %i[id name]},
+                                              institution: {only: %i[id name]}}
     end
 
     def create
@@ -55,9 +55,9 @@ module Api::V1
     # end
 
     def render_questionnaire
-      render json: @questionnaire, include: {questionnaire_options: {only: %i[id description correct],
-                                             includes: {subject: {only: %i[id name]}},
-                                             includes: {institution: {only: %i[id name]}}}}
+      render json: @questionnaire, include: {questionnaire_options: {only: %i[id description correct]},
+                                             subject: {only: %i[id name]},
+                                             institution: {only: %i[id name]}}
     end
 
     def set_questionnaire

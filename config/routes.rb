@@ -8,15 +8,16 @@ Rails.application.routes.draw do
       end
       resources :attendances, on: :collection
       resources :events, except: [:show]
-      resources :sessions, only: [:create, :destroy]
+      resources :sessions, only: %i[create destroy]
       resources :questionnaires do
         post "answer", action: :create_answer, on: :collection
       end
+      resources :questionnaire_answers, only: %i[index create]
       resources :users do
         get ":id/attendances", action: :attendances, on: :collection
       end
       resources :courses, except: [:show]
-      resources :subjects, except: [:show, :destroy]
+      resources :subjects, except: %i[show destroy]
       resources :institutions, except: [:show]
       resources :contents, except: [:show]
       resources :worktimes, except: %i[show create]
