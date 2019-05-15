@@ -1,9 +1,9 @@
 module Api::V1
   class QuestionnaireAnswersController < ApiController
-    has_scope :user, :correct_answers
+    has_scope :student, :correct_answers
 
     def index
-      @answer = apply_scopes(QuestionnaireAnswer).all
+      @answer = params[:correct_answers] ? QuestionnaireAnswer.correct_answers.all : apply_scopes(QuestionnaireAnswer).all
       render json: @answer, except: %i[updated_at], include: { questionnaire_option: {only: %i[correct description]},
                                                                questionnaire: {only: %i[description],
                                                                                subject: {only: %i[name]}}}
@@ -11,7 +11,6 @@ module Api::V1
 
     def create
       @answer = QuestionnaireAnswer.new(answer_params)
-      binding.pry
       if @answer.save
         render json: @answer
       else
