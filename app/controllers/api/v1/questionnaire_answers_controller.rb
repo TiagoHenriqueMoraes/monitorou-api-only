@@ -11,12 +11,17 @@ module Api::V1
     end
 
     def create
-      @answer = QuestionnaireAnswer.new(answer_params)
-      if @answer.save
-        render json: @answer
+      response = []
+      if params[:questionnaire_answer].is_a? Array
+        params[:questionnaire_answer].each do |hash|
+          answer = QuestionnaireAnswer.new(answers_params(hash))
+          response << (answer.save ? answer : answer.errors)
+        end
       else
-        render json: @answer.errors
+        answer = QuestionnaireAnswer.new(answer_params)
+        response = (answer.save ? answer : answer.errors)
       end
+      render json: response
     end
 
     private
@@ -27,6 +32,10 @@ module Api::V1
 
     def answer_params
       params.require(:questionnaire_answer).permit(:questionnaire_id, :questionnaire_option_id).merge(user: current_user)
+    end
+
+    def answers_params(params)
+      params.permit(:questionnaire_id, :questionnaire_option_id).merge(user: current_user)
     end
   end
 end

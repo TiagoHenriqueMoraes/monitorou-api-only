@@ -26,7 +26,7 @@
   
       def update
         authorize @attendance
-        if @attendance.update(attendance_params)
+        if @attendance.update(attendance_params(params[:attendance]))
           render json: @attendance
         else
           render json: @attendance.errors, status: :unprocessable_entity
