@@ -1,6 +1,7 @@
 module Api::V1
   class QuestionnaireAnswersController < ApiController
     has_scope :student, :correct_answers, :questionnaire
+    before_action :authorize_user, only: %i[index create]
 
     def index
       @answer = apply_scopes(QuestionnaireAnswer).all
@@ -19,6 +20,10 @@ module Api::V1
     end
 
     private
+
+    def authorize_user
+      authorize QuestionnaireAnswer
+    end
 
     def answer_params
       params.require(:questionnaire_answer).permit(:questionnaire_id, :questionnaire_option_id).merge(user: current_user)

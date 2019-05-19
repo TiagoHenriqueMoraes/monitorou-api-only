@@ -1,14 +1,21 @@
 module Api::V1
   class QuestionnairesController < ApiController
     before_action :set_questionnaire, only: %i[update destroy show]
-    # before_action :authorize_user, only: %i[create update destroy]
+    before_action :authorize_user, only: %i[create update destroy]
 
     def index
       @questionnaires = Questionnaire.all
-      render json: @questionnaires, except: [:created_at, :updated_at], 
-                                    include: {questionnaire_options: {only: %i[id description correct]},
-                                              subject: {only: %i[id name]},
-                                              institution: {only: %i[id name]}}
+      unless current_user.student?
+        render json: @questionnaires, except: %i[created_at updated_at], 
+                                      include: {questionnaire_options: {only: %i[id description correct]},
+                                                subject: {only: %i[id name]},
+                                                institution: {only: %i[id name]}}
+      else
+        render json: @questionnaires, except: %i[created_at updated_at], 
+                                      include: {questionnaire_options: {only: %i[id description]},
+                                                subject: {only: %i[id name]},
+                                                institution: {only: %i[id name]}}
+      end
     end
 
     def create
@@ -50,14 +57,22 @@ module Api::V1
 
     private
   
-    # def authorize_user
-    #   authorize Questionnaire
-    # end
+    def authorize_user
+      authorize Questionnaire
+    end
 
     def render_questionnaire
-      render json: @questionnaire, include: {questionnaire_options: {only: %i[id description correct]},
-                                             subject: {only: %i[id name]},
-                                             institution: {only: %i[id name]}}
+      unless current_user.student?
+        render json: @questionnaire, except: %i[created_at updated_at],
+                                     include: {questionnaire_options: {only: %i[id description correct]},
+                                               subject: {only: %i[id name]},
+                                               institution: {only: %i[id name]}}
+      else
+        render json: @questionnaire, except: %i[created_at updated_at],
+                                     include: {questionnaire_options: {only: %i[id description]},
+                                               subject: {only: %i[id name]},
+                                               institution: {only: %i[id name]}}
+      end
     end
 
     def set_questionnaire
