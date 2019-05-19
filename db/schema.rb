@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_06_230152) do
+ActiveRecord::Schema.define(version: 2019_05_11_203858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,36 @@ ActiveRecord::Schema.define(version: 2019_05_06_230152) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "questionnaire_answers", force: :cascade do |t|
+    t.bigint "questionnaire_id"
+    t.bigint "questionnaire_option_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["questionnaire_id"], name: "index_questionnaire_answers_on_questionnaire_id"
+    t.index ["questionnaire_option_id"], name: "index_questionnaire_answers_on_questionnaire_option_id"
+    t.index ["user_id"], name: "index_questionnaire_answers_on_user_id"
+  end
+
+  create_table "questionnaire_options", force: :cascade do |t|
+    t.bigint "questionnaire_id"
+    t.boolean "correct"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["questionnaire_id"], name: "index_questionnaire_options_on_questionnaire_id"
+  end
+
+  create_table "questionnaires", force: :cascade do |t|
+    t.bigint "subject_id"
+    t.string "description"
+    t.bigint "institution_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["institution_id"], name: "index_questionnaires_on_institution_id"
+    t.index ["subject_id"], name: "index_questionnaires_on_subject_id"
   end
 
   create_table "study_groups", force: :cascade do |t|
@@ -131,6 +161,12 @@ ActiveRecord::Schema.define(version: 2019_05_06_230152) do
   add_foreign_key "courses_subjects", "courses"
   add_foreign_key "courses_subjects", "subjects"
   add_foreign_key "events", "courses_subjects"
+  add_foreign_key "questionnaire_answers", "questionnaire_options"
+  add_foreign_key "questionnaire_answers", "questionnaires"
+  add_foreign_key "questionnaire_answers", "users"
+  add_foreign_key "questionnaire_options", "questionnaires"
+  add_foreign_key "questionnaires", "institutions"
+  add_foreign_key "questionnaires", "subjects"
   add_foreign_key "study_groups", "institutions"
   add_foreign_key "study_groups", "subjects"
   add_foreign_key "study_groups_users", "study_groups"

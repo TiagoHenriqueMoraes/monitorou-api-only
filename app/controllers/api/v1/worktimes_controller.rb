@@ -5,7 +5,7 @@ class Api::V1::WorktimesController < Api::V1::ApiController
 
   def index
     @worktimes = apply_scopes(Worktime).all
-    render json: @worktimes, except: [:created_at, :updated_at]
+    render json: @worktimes, except: %i[created_at updated_at user_id], include: { user: { only: %i[id name]} }
   end
 
   def update
