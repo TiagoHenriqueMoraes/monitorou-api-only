@@ -53,7 +53,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   def user_params
     params.require(:user).permit(:email, :name, :course_id, :institution_id, :kind, :password,
                                  :password_confirmation, :authentication_token, :profile_picture,
-                                 worktimes_attributes: [:id, :day, :start_time, :end_time, :_destroy])
+                                 worktimes_attributes: %i[id day start_time end_time _destroy])
   end
 
   def authorize_user
