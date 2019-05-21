@@ -16,7 +16,6 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def create
     @user = User.new(user_params)
-    binding.pry
     authorize @user
     @user.subjects << Subject.find(params[:user][:user_subjects_attributes]) if params[:user][:user_subjects_attributes]
     if @user.save

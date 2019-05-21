@@ -122,13 +122,9 @@ ActiveRecord::Schema.define(version: 2019_05_20_223113) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "subjects_users", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["subject_id"], name: "index_subjects_users_on_subject_id"
-    t.index ["user_id"], name: "index_subjects_users_on_user_id"
+  create_table "subjects_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "subject_id", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -180,8 +176,6 @@ ActiveRecord::Schema.define(version: 2019_05_20_223113) do
   add_foreign_key "study_groups", "subjects"
   add_foreign_key "study_groups_users", "study_groups"
   add_foreign_key "study_groups_users", "users"
-  add_foreign_key "subjects_users", "subjects"
-  add_foreign_key "subjects_users", "users"
   add_foreign_key "users", "courses"
   add_foreign_key "users", "institutions"
   add_foreign_key "users", "study_groups"
