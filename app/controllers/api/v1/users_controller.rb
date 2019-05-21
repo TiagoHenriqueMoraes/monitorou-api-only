@@ -16,7 +16,9 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   def create
     @user = User.new(user_params)
+    binding.pry
     authorize @user
+    @user.subjects << Subject.find(params[:user][:user_subjects_attributes]) if params[:user][:user_subjects_attributes]
     if @user.save
       render_params
     else
@@ -45,7 +47,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
 
   private
-  
+
   def set_user
     @user = User.find(params[:id])
   end
@@ -76,7 +78,7 @@ class Api::V1::UsersController < Api::V1::ApiController
       render json: @user, only: [:id, :name, :email, :authentication_token, :profile_picture, :kind],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                     study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
-                                                                                   institution: {only: [:name]}}},
+                                                                                    institution: {only: [:name]}}},
                                                                           attendances: {only: [:kind, :date]}}
     end
   end

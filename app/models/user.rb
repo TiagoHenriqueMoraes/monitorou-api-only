@@ -8,6 +8,7 @@ class User < ApplicationRecord
   belongs_to :course
 
   has_and_belongs_to_many :study_groups, optional: true
+  has_and_belongs_to_many :subjects, optional: true
 
   enum kind: %i[student monitor admin teacher]
 
@@ -23,4 +24,5 @@ class User < ApplicationRecord
   validates :worktimes, presence: true, if: :monitor?
 
   accepts_nested_attributes_for :worktimes, allow_destroy: true
+  # accepts_nested_attributes_for :user_subjects, allow_destroy: true
 end
