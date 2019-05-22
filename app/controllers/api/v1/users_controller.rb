@@ -11,13 +11,14 @@ class Api::V1::UsersController < Api::V1::ApiController
                                   worktimes: {only: [:start_time, :end_time, :day]},
                                    study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
                                                                                    institution: {only: [:name]}}},
-                                                                         attendances: {only: [:kind, :date]}}
+                                                                         attendances: {only: [:kind, :date]},
+                                                                         subjects: {only: [:name, :id]} }
   end
 
   def create
     @user = User.new(user_params)
     authorize @user
-    @user.subjects << Subject.find(params[:user][:user_subjects_attributes]) if params[:user][:user_subjects_attributes]
+    @user.subjects << Subject.find(params[:user][:subject_id]) if params[:user][:subject_id]
     if @user.save
       render_params
     else
@@ -52,7 +53,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   end
   
   def user_params
-    params.require(:user).permit(:email, :name, :course_id, :institution_id, :kind, :password,
+    params.require(:user).permit(:email, :name, :course_id, :institution_id, :kind, :password, :subject_id,
                                  :password_confirmation, :authentication_token, :profile_picture,
                                  worktimes_attributes: %i[id day start_time end_time _destroy])
   end
@@ -72,13 +73,15 @@ class Api::V1::UsersController < Api::V1::ApiController
                                     worktimes: {only: [:start_time, :end_time, :day]},
                                     study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
                                                                                     institution: {only: [:name]}}},
-                                                                          attendances: {only: [:kind, :date]}}
+                                                                          attendances: {only: [:kind, :date]},
+                                                                          subjects: {only: [:name, :id]}}
     else
       render json: @user, only: [:id, :name, :email, :authentication_token, :profile_picture, :kind],
                           include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                     study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
                                                                                     institution: {only: [:name]}}},
-                                                                          attendances: {only: [:kind, :date]}}
+                                                                          attendances: {only: [:kind, :date]},
+                                                                          subjects: {only: [:name, :id]}}
     end
   end
 end
