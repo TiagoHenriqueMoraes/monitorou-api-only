@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :questionnaires
       resources :questionnaire_answers, only: %i[index create]
       resources :users do
+        post "subjects_users", action: :add_subject
         get ":id/attendances", action: :attendances, on: :collection
       end
       resources :courses, except: [:show]
