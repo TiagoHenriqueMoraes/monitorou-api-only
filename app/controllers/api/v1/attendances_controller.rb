@@ -1,6 +1,7 @@
   module Api::V1
     class AttendancesController < ApiController
       before_action :set_attendance, only: [:update, :destroy]
+      has_scope :user
   
       def index
         @attendances = apply_scopes(Attendance).all
