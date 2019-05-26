@@ -4,8 +4,8 @@ class Api::V1::ContentsController < Api::V1::ApiController
   
   def index
     @contents = apply_scopes(Content).all
-    render json: @contents, only: %i[kind image document], include: { study_group: { only: %i[name theme], include:{
-                                                                      subject: { only: %i[name] } } } }
+    render json: @contents, except: %i[created_at updated_at], include: { study_group: { only: %i[name theme], include:{
+                                                                          subject: { only: %i[name] } } } }
   end
 
   def create
@@ -40,6 +40,6 @@ class Api::V1::ContentsController < Api::V1::ApiController
   end
 
   def content_params
-    params.require(:content).permit(:kind, :image, :document, :study_group_id)
+    params.require(:content).permit(:kind, :image, :document, :study_group_id, :description)
   end
 end
