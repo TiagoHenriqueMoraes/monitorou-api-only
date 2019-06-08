@@ -5,7 +5,7 @@ class Api::V1::UsersController < Api::V1::ApiController
   has_scope :institution, :subject
 
   def index
-    @users = apply_scopes(User).all
+    @users = apply_scopes(User).includes(:institution, :worktimes, :attendances, course: [:subjects], study_groups: [:subjects]).all
     render json: @users, only: %i[id name email authentication_token profile_picture kind],
                                   include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                   worktimes: {only: [:start_time, :end_time, :day]},
