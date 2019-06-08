@@ -6,7 +6,8 @@ module Api::V1
 
     def index
       @study_groups = apply_scopes(StudyGroup).all
-      render json: @study_groups, only: %i[id name theme], :include => {:institution => {:only => :name}}
+      render json: @study_groups, only: %i[id name theme], include: { institution:  {only: [:name]},
+                                                                      contents: { except: %i[created_at updated_at] }}
     end
 
     def create
