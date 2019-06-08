@@ -69,9 +69,9 @@ class Api::V1::UsersController < Api::V1::ApiController
   def render_params
     if @user.monitor?
       render json: @user, only: [:id, :name, :email, :authentication_token, :profile_picture, :kind],
-                          include: {course: {only: [:name], include: {subjects: {only: [:name]}}}, 
+                          include: {course: {only: [:name, :id], include: {subjects: {only: [:name, :id]}}}, 
                                     worktimes: {only: [:start_time, :end_time, :day]},
-                                    study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
+                                    study_groups: {only: [:name, :theme], include: {subject: {only: [:name, :id]},
                                                                                     institution: {only: [:name]}}},
                                                                           attendances: {only: [:kind, :date]},
                                                                           subjects: {only: [:name, :id]}}
