@@ -1,4 +1,0 @@
-AWS_ACCESS_KEY_ID: 'AKIAJETBWPKA2UOW5QYQ'
-AWS_SECRET_ACCESS_KEY: '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'
-AWS_REGION: 'sa-east-1'
-S3_BUCKET: 'monitorou-images'
