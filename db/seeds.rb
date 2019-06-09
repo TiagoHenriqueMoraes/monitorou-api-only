@@ -84,8 +84,8 @@ puts "Deu Bom"
 puts "Criando Usuários"
 begin
   @student = User.create(
-    name: "estudante",
-    email: "estudante@fatec.com",
+    name: "Aluno",
+    email: "aluno@fatec.com",
     course_id: Course.all.sample.id,
     institution_id: @fatec.id,
     kind: 0,
@@ -149,24 +149,20 @@ begin
     subject: @est
   )
   
-  3.times do
-    ["450", "300", "Não há limite"].each do |opt|
-      QuestionnaireOption.create(
-        description: opt,
-        questionnaire: @codigo,
-        correct: false
-      )
-    end
+  ["450", "300", "Não há limite"].each do |opt|
+    QuestionnaireOption.create(
+      description: opt,
+      questionnaire: @codigo,
+      correct: false
+    )
   end
   
-  3.times do
-    ["50%", "70%", "25%"].each do |opt|
-      QuestionnaireOption.create(
-        description: opt,
-        questionnaire: @estatistica,
-        correct: false
-      )
-    end
+  ["50%", "70%", "25%"].each do |opt|
+    QuestionnaireOption.create(
+      description: opt,
+      questionnaire: @estatistica,
+      correct: false
+    )
   end
 rescue => exception
   puts "Deu ruim"
