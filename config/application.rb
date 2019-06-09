@@ -1,6 +1,7 @@
 require_relative 'boot'
 
 require "rails"
+require "dotenv/load"
 # Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
@@ -19,6 +20,7 @@ Bundler.require(*Rails.groups)
 
 module MonitorouApiOnly
   class Application < Rails::Application
+    Dotenv::Railtie.load
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
     config.middleware.use Rack::Attack

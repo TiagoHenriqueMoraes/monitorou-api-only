@@ -184,9 +184,9 @@ puts "Deu Bom"
 
 puts "Eventos"
 begin
-  3.times do
+  ["Prova 1", "Prova 2", "Sub"].each do |event|
     Event.create!(
-      description: ["Prova 1", "Prova 2", "Sub"].pop,
+      description: event,
       courses_subject: CoursesSubject.all.sample,
       date: rand(30).days.from_now
     )
