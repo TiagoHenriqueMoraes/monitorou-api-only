@@ -5,14 +5,15 @@ class Api::V1::UsersController < Api::V1::ApiController
   has_scope :institution, :subject
 
   def index
-    @users = apply_scopes(User).includes(:institution, :worktimes, :attendances, :subjects, course: [:subjects], study_groups: [:subjects]).all
+    @users = apply_scopes(User).includes(:institution, :worktimes, :attendances, :subjects, :questionnaire_answers, course: [:subjects], study_groups: [:subjects]).all
     render json: @users, only: %i[id name email authentication_token profile_picture kind],
                                   include: {course: {only: [:name], include: {subjects: {only: [:name]}}},
                                   worktimes: {only: [:start_time, :end_time, :day]},
                                    study_groups: {only: [:name, :theme], include: {subject: {only: [:name]},
                                                                                    institution: {only: [:name]}}},
                                                                          attendances: {only: [:kind, :date]},
-                                                                         subjects: {only: [:name, :id]} }
+                                                                         subjects: {only: [:name, :id]},
+                                                                         questionnaire_answers: { only: [:id], include: { questionnaire: { only: [:id], include: { questionnaire_options: {only: [:id, :correct]}} }} } }  
   end
 
   def create

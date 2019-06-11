@@ -16,6 +16,7 @@ class User < ApplicationRecord
 
   has_many :worktimes, dependent: :destroy
   has_many :attendances, dependent: :destroy
+  has_many :questionnaire_answers
 
   scope :institution, ->(institution) { where(institution_id: institution) }
   # default_scope -> { includes(:institution, :worktimes, :attendances, course: [:subjects], study_groups: [:subjects]) }
