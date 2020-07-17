@@ -40,6 +40,6 @@ class Api::V1::ContentsController < Api::V1::ApiController
   end
 
   def content_params
-    params.require(:content).permit(:kind, :image, :document, :study_group_id, :description)
+    params.require(:content).permit(:kind, :image, :document, :file_url, :study_group_id, :description)
   end
 end

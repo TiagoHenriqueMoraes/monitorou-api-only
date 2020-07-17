@@ -4,7 +4,7 @@ class Api::V1::SubjectsController < Api::V1::ApiController
 
   def index
     @subjects = apply_scopes(Subject).all
-    render json: @subjects, only: %i[id name], include: {courses: {only: [:name]}}
+    render json: @subjects, only: %i[id name], include: {courses: {only: [:id, :name]}}
   end
 
   def create

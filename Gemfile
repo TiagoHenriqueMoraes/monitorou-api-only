@@ -15,6 +15,8 @@ gem 'carrierwave-base64'
 gem 'has_scope'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem "pundit"
+gem 'aws-sdk', '~> 3'
+gem 'dotenv-rails'
 
 
 group :development, :test do

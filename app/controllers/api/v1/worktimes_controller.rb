@@ -4,7 +4,7 @@ class Api::V1::WorktimesController < Api::V1::ApiController
   before_action :authorize_user, only: %i[update destroy]
 
   def index
-    @worktimes = apply_scopes(Worktime).all
+    @worktimes = apply_scopes(Worktime).includes(user: [:subjects]).all
     render json: @worktimes, except: %i[created_at updated_at user_id], include: { user: { only: %i[id name],
                                                                                    include: { subjects: {only: %i[id name]} } } }
   end
